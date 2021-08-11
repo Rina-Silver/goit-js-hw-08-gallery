@@ -3,7 +3,9 @@ import { default as galleryItems } from './app.js';
 const refs = {
   galleryRef: document.querySelector('.gallery.js-gallery'),
   lightboxRef: document.querySelector('.lightbox.js-lightbox'),
+  lightboxOverlay: document.querySelector('.lightbox__overlay'),
   closeModalBtn: document.querySelector('[data-action="close-lightbox"]'),
+  lightboxImg: document.querySelector('.lightbox__image'),
 };
 
 //console.log(galleryItems);
@@ -50,12 +52,27 @@ function handleTargetItemClick(e) {
   //console.log(targetImageIdx);
   //console.log(originalSizeImage);
   //console.log(descriptionImage);
+
+  onOpenModal(originalSizeImage, descriptionImage);
 }
 //*
 
-// function onTargetButtonClick() {
-//   console.log('клик');
-// }
+//*Открытие модального окна по клику на элементе галереи.
+function onOpenModal(size, description) {
+  refs.closeModalBtn.addEventListener('click', onCloseModal);
+  refs.lightboxOverlay.addEventListener('click', onCloseModal);
+  refs.lightboxRef.classList.add('is-open');
+  refs.lightboxImg.src = size;
+  refs.lightboxImg.alt = description;
+}
+//*
+function onCloseModal() {
+  refs.lightboxRef.classList.remove('is-open');
+  refs.lightboxImg.src = '';
+  refs.lightboxImg.alt = '';
+  refs.closeModalBtn.removeEventListener('click', onCloseModal);
+  refs.lightboxOverlay.removeEventListener('click', onCloseModal);
+}
 // function onKeyPress(e) {
 //   //keypress
 //   console.log(e.key);
