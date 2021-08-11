@@ -67,14 +67,14 @@ function onOpenModal(size, description, idx) {
   refs.lightboxRef.classList.add('is-open');
   refs.lightboxImg.src = size;
   refs.lightboxImg.alt = description;
-  refs.lightboxImg.dataset.idex = idx;
+  refs.lightboxImg.dataset.index = idx;
 }
 //*
 function onCloseModal() {
   refs.lightboxRef.classList.remove('is-open');
   refs.lightboxImg.src = '';
   refs.lightboxImg.alt = '';
-  refs.lightboxImg.id = '';
+  targetImageIdx = '';
 
   window.removeEventListener('keydown', onEscKeyPress);
   window.removeEventListener('keydown', onArrowKeyPress);
@@ -114,7 +114,7 @@ function onArrowKeyPress(e) {
     targetImageIdx -= 1;
     showNextImg();
   }
-  if (e.key === 'ArrowRight' && targetImageIdx < galleryItems.length) {
+  if (e.key === 'ArrowRight' && targetImageIdx < galleryItems.length - 1) {
     targetImageIdx += 1;
     showNextImg();
   }
