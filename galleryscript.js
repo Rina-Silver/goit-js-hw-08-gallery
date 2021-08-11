@@ -54,12 +54,12 @@ function handleTargetItemClick(e) {
   //console.log(originalSizeImage);
   //console.log(descriptionImage);
 
-  onOpenModal(originalSizeImage, descriptionImage, targetImageIdx);
+  onOpenModal(originalSizeImage, descriptionImage);
 }
 //*
 
 //*Открытие модального окна по клику на элементе галереи.
-function onOpenModal(size, description, idx) {
+function onOpenModal(size, description) {
   window.addEventListener('keydown', onEscKeyPress);
   window.addEventListener('keydown', onArrowKeyPress);
   refs.closeModalBtn.addEventListener('click', onCloseModal);
@@ -67,7 +67,7 @@ function onOpenModal(size, description, idx) {
   refs.lightboxRef.classList.add('is-open');
   refs.lightboxImg.src = size;
   refs.lightboxImg.alt = description;
-  refs.lightboxImg.dataset.index = idx;
+  refs.lightboxImg.dataset.index = targetImageIdx;
 }
 //*
 function onCloseModal() {
@@ -106,7 +106,7 @@ function showNextImg() {
 
   const originalSizeImage = nextElem.dataset.source;
   const descriptionImage = nextElem.alt;
-  onOpenModal(originalSizeImage, descriptionImage, targetImageIdx);
+  onOpenModal(originalSizeImage, descriptionImage);
 }
 
 function onArrowKeyPress(e) {
