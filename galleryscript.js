@@ -52,14 +52,14 @@ function handleTargetItemClick(e) {
   //console.log(originalSizeImage);
   //console.log(descriptionImage);
 
-  onOpenModal(originalSizeImage, descriptionImage);
-  onPress(e, targetImageIdx);
+  onOpenModal(originalSizeImage, descriptionImage, targetImageIdx);
 }
 //*
 
 //*Открытие модального окна по клику на элементе галереи.
-function onOpenModal(size, description) {
+function onOpenModal(size, description, idx) {
   window.addEventListener('keydown', onEscKeyPress);
+  window.addEventListener('keydown', onArrowKeyPress);
   refs.closeModalBtn.addEventListener('click', onCloseModal);
   refs.lightboxOverlay.addEventListener('click', onOverlayClick);
   refs.lightboxRef.classList.add('is-open');
@@ -72,6 +72,7 @@ function onCloseModal() {
   refs.lightboxImg.src = '';
 
   window.removeEventListener('keydown', onEscKeyPress);
+  window.removeEventListener('keydown', onArrowKeyPress);
   refs.closeModalBtn.removeEventListener('click', onCloseModal);
   refs.lightboxOverlay.removeEventListener('click', onOverlayClick);
 }
@@ -93,7 +94,14 @@ function onEscKeyPress(e) {
 //*
 
 //*Пролистывание изображений галереи в открытом модальном окне
-function onPress(e, idx) {
-  console.log(e.code);
+function onArrowKeyPress(e, idx) {
+  if (e.key === 'ArrowLeft' && idx > 0) {
+    --idx;
+    onOpenModal();
+  }
+  if (e.key === 'ArrowRight' && idx <= refs.length) {
+    idx++;
+    onOpenModal();
+  }
 }
 //*
