@@ -54,12 +54,12 @@ function handleTargetItemClick(e) {
   //console.log(originalSizeImage);
   //console.log(descriptionImage);
 
-  onOpenModal(originalSizeImage, descriptionImage);
+  onOpenModal(originalSizeImage, descriptionImage, targetImageIdx);
 }
 //*
 
 //*Открытие модального окна по клику на элементе галереи.
-function onOpenModal(size, description) {
+function onOpenModal(size, description, idx) {
   window.addEventListener('keydown', onEscKeyPress);
   window.addEventListener('keydown', onArrowKeyPress);
   refs.closeModalBtn.addEventListener('click', onCloseModal);
@@ -67,14 +67,14 @@ function onOpenModal(size, description) {
   refs.lightboxRef.classList.add('is-open');
   refs.lightboxImg.src = size;
   refs.lightboxImg.alt = description;
-  refs.lightboxImg.dataset.index = targetImageIdx;
+  refs.lightboxImg.dataset.index = idx;
 }
 //*
 function onCloseModal() {
   refs.lightboxRef.classList.remove('is-open');
   refs.lightboxImg.src = '';
   refs.lightboxImg.alt = '';
-  targetImageIdx = '';
+  refs.lightboxImg.dataset.index = '';
 
   window.removeEventListener('keydown', onEscKeyPress);
   window.removeEventListener('keydown', onArrowKeyPress);
@@ -99,24 +99,25 @@ function onEscKeyPress(e) {
 //*
 
 //*Пролистывание изображений галереи в открытом модальном окне
-function showNextImg() {
+function showNextImg(idx) {
   const nextElem = document.querySelector(
-    `.gallery__image[data-index='${targetImageIdx}']`
+    `.gallery__image[data-index='${idx}']`
   );
 
   const originalSizeImage = nextElem.dataset.source;
   const descriptionImage = nextElem.alt;
-  onOpenModal(originalSizeImage, descriptionImage);
+  onOpenModal(originalSizeImage, descriptionImage, idx);
 }
 
 function onArrowKeyPress(e) {
-  if (e.key === 'ArrowLeft' && targetImageIdx > 0) {
-    --targetImageIdx;
-    showNextImg();
+  const idx = refs.lightboxImg.dataset.index;
+  if (e.key === 'ArrowLeft' && idx > 0) {
+    --idx;
+    showNextImg(idx);
   }
-  if (e.key === 'ArrowRight' && targetImageIdx < galleryItems.length - 1) {
-    targetImageIdx++;
-    showNextImg();
+  if (e.key === 'ArrowRight' && idx < galleryItems.length - 1) {
+    idx++;
+    showNextImg(idx);
   }
 }
 //*
