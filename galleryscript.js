@@ -111,11 +111,11 @@ function showNextImg() {
 
 function onArrowKeyPress(e) {
   if (e.key === 'ArrowLeft' && targetImageIdx > 0) {
-    targetImageIdx -= 1;
+    --targetImageIdx;
     showNextImg();
   }
   if (e.key === 'ArrowRight' && targetImageIdx < galleryItems.length - 1) {
-    targetImageIdx += 1;
+    targetImageIdx++;
     showNextImg();
   }
 }
