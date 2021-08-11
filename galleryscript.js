@@ -110,7 +110,7 @@ function showNextImg(idx) {
 }
 
 function onArrowKeyPress(e) {
-  const idx = refs.lightboxImg.dataset.index;
+  let idx = refs.lightboxImg.dataset.index;
   if (e.key === 'ArrowLeft' && idx > 0) {
     --idx;
     showNextImg(idx);
