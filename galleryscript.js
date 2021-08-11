@@ -38,7 +38,6 @@ refs.galleryRef.insertAdjacentHTML('beforeend', createElements(galleryItems));
 
 //*Реализация делегирования на галерее
 refs.galleryRef.addEventListener('click', handleTargetItemClick);
-// refs.galleryRef.removeEventListener('click', handleTargetItemClick);
 
 function handleTargetItemClick(e) {
   e.preventDefault();
@@ -54,13 +53,15 @@ function handleTargetItemClick(e) {
   //console.log(descriptionImage);
 
   onOpenModal(originalSizeImage, descriptionImage);
+  onPress(e, targetImageIdx);
 }
 //*
 
 //*Открытие модального окна по клику на элементе галереи.
 function onOpenModal(size, description) {
+  window.addEventListener('keydown', onEscKeyPress);
   refs.closeModalBtn.addEventListener('click', onCloseModal);
-  refs.lightboxOverlay.addEventListener('click', onCloseModal);
+  refs.lightboxOverlay.addEventListener('click', onOverlayClick);
   refs.lightboxRef.classList.add('is-open');
   refs.lightboxImg.src = size;
   refs.lightboxImg.alt = description;
@@ -69,11 +70,30 @@ function onOpenModal(size, description) {
 function onCloseModal() {
   refs.lightboxRef.classList.remove('is-open');
   refs.lightboxImg.src = '';
-  refs.lightboxImg.alt = '';
+
+  window.removeEventListener('keydown', onEscKeyPress);
   refs.closeModalBtn.removeEventListener('click', onCloseModal);
-  refs.lightboxOverlay.removeEventListener('click', onCloseModal);
+  refs.lightboxOverlay.removeEventListener('click', onOverlayClick);
 }
-// function onKeyPress(e) {
-//   //keypress
-//   console.log(e.key);
-// }
+
+//*Закрытие модального окна по клику на div.lightbox__overlay
+function onOverlayClick(e) {
+  if (e.currentTarget === e.target) {
+    onCloseModal();
+  }
+}
+//*
+
+//* Закрытие модального окна по нажатию клавиши ESC
+function onEscKeyPress(e) {
+  if (e.code === 'Escape') {
+    onCloseModal();
+  }
+}
+//*
+
+//*Пролистывание изображений галереи в открытом модальном окне
+function onPress(e, idx) {
+  console.log(e.code);
+}
+//*
