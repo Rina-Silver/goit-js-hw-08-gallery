@@ -60,10 +60,9 @@ function handleTargetItemClick(e) {
 
 //*Открытие модального окна по клику на элементе галереи.
 function onOpenModal(size, description, idx) {
-  window.addEventListener('keydown', onEscKeyPress);
-  window.addEventListener('keydown', onArrowKeyPress);
+  window.addEventListener('keydown', onKeyPress);
   refs.closeModalBtn.addEventListener('click', onCloseModal);
-  refs.lightboxOverlay.addEventListener('click', onOverlayClick);
+  refs.lightboxOverlay.addEventListener('click', onCloseModal);
   refs.lightboxRef.classList.add('is-open');
   refs.lightboxImg.src = size;
   refs.lightboxImg.alt = description;
@@ -76,27 +75,20 @@ function onCloseModal() {
   refs.lightboxImg.alt = '';
   refs.lightboxImg.dataset.index = '';
 
-  window.removeEventListener('keydown', onEscKeyPress);
-  window.removeEventListener('keydown', onArrowKeyPress);
+  window.removeEventListener('keydown', onKeyPress);
   refs.closeModalBtn.removeEventListener('click', onCloseModal);
-  refs.lightboxOverlay.removeEventListener('click', onOverlayClick);
+  refs.lightboxOverlay.removeEventListener('click', onCloseModal);
 }
 
 //*Закрытие модального окна по клику на div.lightbox__overlay
-function onOverlayClick(e) {
-  if (e.currentTarget === e.target) {
-    onCloseModal();
-  }
-}
+// function onOverlayClick(e) {
+//   if (e.currentTarget === e.target) {
+//     onCloseModal();
+//   }
+// }
 //*
 
 //* Закрытие модального окна по нажатию клавиши ESC
-function onEscKeyPress(e) {
-  if (e.code === 'Escape') {
-    onCloseModal();
-  }
-}
-//*
 
 //*Пролистывание изображений галереи в открытом модальном окне
 function showNextImg(idx) {
@@ -109,7 +101,11 @@ function showNextImg(idx) {
   onOpenModal(originalSizeImage, descriptionImage, idx);
 }
 
-function onArrowKeyPress(e) {
+function onKeyPress(e) {
+  if (e.code === 'Escape') {
+    onCloseModal();
+    return;
+  }
   let idx = refs.lightboxImg.dataset.index;
   if (e.key === 'ArrowLeft' && idx > 0) {
     --idx;
